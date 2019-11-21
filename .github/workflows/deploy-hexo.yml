@@ -1,0 +1,20 @@
+name: Deploy Hexo
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v1
+    - name: Deployment
+      run: ./.github/hexo/deploy.sh
+      env:
+        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        DEPLOY_REPO: ThingsEVA/ThingsEVA.github.io
+        DEPLOY_DIR: public
+        DEPLOY_BRANCH: master
+        
