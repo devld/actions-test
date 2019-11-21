@@ -17,10 +17,9 @@ fi
 cd ${DEPLOY_DIR}
 
 echo "--- Init git"
-git init
+git clone ${REPO_URL} .
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-git remote add origin "${REPO_URL}"
 
 # TODO: DEPLOY_BRANCH must exists
 echo "--- Checkout"
