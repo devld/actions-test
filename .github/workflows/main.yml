@@ -16,5 +16,8 @@ jobs:
         echo Add other actions to build,
         echo test, and deploy your project.
     - name: Show files
-      run: ls -lhr
+      run: ls -lhra
+    - name: current dir
+      run: pwd
+
 
