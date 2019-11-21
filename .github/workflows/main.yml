@@ -19,5 +19,7 @@ jobs:
       run: ls -lhra
     - name: current dir
       run: pwd
+    - name: check command line tools
+      run: git
 
 
