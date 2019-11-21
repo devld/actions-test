@@ -1,38 +1,51 @@
 ---
 title: Hello World
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
+## ThingsEVA
 
-## Quick Start
 
-### Create a new post
 
-``` bash
-$ hexo new "My New Post"
+测试
+
+
+
+```bash
+#!/bin/sh
+
+set -e
+
+cd $GITHUB_WORKSPACE
+
+echo "--- Installing node_modules"
+npm install
+
+HEXO=${GITHUB_WORKSPACE}/node_modules/hexo/bin/hexo
+REPO_URL=https://git:${PERSONAL_TOKEN}@github.com/${DEPLOY_REPO}
+
+if [ ! -e "${DEPLOY_DIR}" ]; then
+    mkdir "${DEPLOY_DIR}"
+fi
+
+cd ${DEPLOY_DIR}
+
+echo "--- Init git"
+git clone ${REPO_URL} .
+git config user.name "${GITHUB_ACTOR}"
+git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+# TODO: DEPLOY_BRANCH must exists
+echo "--- Checkout"
+git checkout ${DEPLOY_BRANCH}
+
+echo "--- Generating"
+$HEXO generate
+
+echo "--- Committing git"
+git add --all
+git commit --allow-empty -m "Publish: `date '+%Y-%m-%d %H:%M:%S'`"
+git push origin ${DEPLOY_BRANCH} --force
+
+echo "--- Completed"
+
 ```
 
-More info: [Writing](https://hexo.io/docs/writing.html)
-
-### Run server
-
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
