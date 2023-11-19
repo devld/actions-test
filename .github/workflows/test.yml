@@ -6,13 +6,26 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Install build-essential
-        run: sudo apt-get update && sudo apt-get install hub zip build-essential gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-mingw-w64-x86-64
+        run: sudo apt-get update && sudo apt-get install zip build-essential gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-mingw-w64-x86-64
+
+      - name: Install hub
+        run: |
+          curl -s -L https://github.com/mislav/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz -o /tmp/hub.tgz
+          mkdir /tmp/hub-installer
+          tar xf /tmp/hub.tgz --strip-components 1 -C /tmp/hub-installer
+          sudo /tmp/hub-installer/install
 
       - name: Debug info
         run: |
           ldd --version
           hub --version
       
+      - name: Test hub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          hub release create -d -m 'Test Release' v1.0.1-test
+        
