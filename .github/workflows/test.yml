@@ -34,5 +34,5 @@ jobs:
         run: |
           pwd
           ls -lh
-          hub release create -d -m 'Test Release' v1.0.1-test
+          hub release create -d -p -a package-lock.json -m README.md -m "Release ${GITHUB_REF##*/}" ${GITHUB_REF##*/}
         
